@@ -162,8 +162,16 @@ func getCityContent(cmd string, data *dto.WSATMessageData) string {
 func getProvinceCityContent(cmd string, data *dto.WSATMessageData) string {
 	p_idx := strings.Index(cmd, "省")
 	c_idx := strings.Index(cmd, "市")
-	province := cmd[:p_idx]
-	city := cmd[p_idx+3 : c_idx]
+	var province, city string
+
+	if p_idx < c_idx { //xx省xx市
+		province = cmd[:p_idx]
+		city = cmd[p_idx+3 : c_idx]
+	} else { //xx市xx省
+		city = cmd[:c_idx]
+		province = cmd[c_idx+3 : p_idx]
+	}
+
 	if verifyArea(province) == -1 {
 		return "您输入的省份不存在！请重新输入正确的省份"
 	}

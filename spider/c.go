@@ -164,6 +164,10 @@ func download(url string) (map[string]interface{}, error) {
 	}
 
 	err = json.Unmarshal(body, &result)
+	if err != nil {
+		log.Println("load json error", err)
+		return nil, err
+	}
 
 	return result, nil
 }
